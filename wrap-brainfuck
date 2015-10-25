@@ -1,0 +1,47 @@
+#!/bin/sh
+cat <<'EOF'
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <assert.h>
+const char *code =
+EOF
+tr -cd '<>+-.,[]' | sed -e 's/\(.\{78\}\)/\1\n/g' | sed -e 's/^/"/g ; s/$/"/g'
+cat <<'EOF'
+;
+const char *pptr;
+int len;
+uint8_t mem[30000] = {};
+uint8_t *ptr = mem;
+void skip(void) {
+    while (pptr < code+len) {
+        switch (*(pptr++)) {
+            case '[': skip(); break;
+            case ']': return;
+        }
+    }
+    assert (NULL);
+}
+void push(const char *back) {
+    while (pptr < code+len) {
+        switch (*(pptr++)) {
+            case '>': ++ptr; break;
+            case '<': --ptr; break;
+            case '+': ++(*ptr); break;
+            case '-': --(*ptr); break;
+            case '.': putchar(*ptr);    break;
+            case ',': *ptr = getchar(); if (*ptr == EOF) { *ptr = -1; } break;
+            case '[': if (*ptr) { push(pptr);  } else { skip(); } break;
+            case ']': if (*ptr) { pptr = back; } else { return; } break;
+        }
+    }
+    assert (back == NULL);
+}
+int main(int argc, char *argv[]) {
+    pptr = code;
+    len = strlen(code);
+    push(NULL);
+    return 0;
+}
+EOF
