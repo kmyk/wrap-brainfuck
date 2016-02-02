@@ -1,16 +1,12 @@
 #!/bin/sh
 cat <<'EOF'
-// https://github.com/kmyk/wrap-brainfuck
+//[ https://github.com/kmyk/wrap-brainfuck
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <assert.h>
-const char *code =
-EOF
-tr -cd '<>+-.,[]' | sed -e 's/\(.\{78\}\)/\1\n/g' | sed -e 's/^/"/g ; s/$/"/g'
-cat <<'EOF'
-;
+static const char *code;
 const char *pptr;
 int len;
 uint8_t mem[30000] = {};
@@ -45,4 +41,8 @@ int main(int argc, char *argv[]) {
     push(NULL);
     return 0;
 }
+
+static const char *code = //]
 EOF
+tr -cd '<>+-.,[]' | sed -e 's/\(.\{78\}\)/\1\n/g' | sed -e 's/^/"/g ; s/$/"/g'
+echo \;
