@@ -1,6 +1,6 @@
 # wrap-brainfuck
 
-A tiny script wraps brainfuck code into C code (and the C code can be executed as a brainfuck code (polyglot), (thank you for [rdebath](https://github.com/rdebath)).
+A tiny script wraps brainfuck code into C code (and the C code can be executed as a brainfuck code (polyglot), (thank you for [rdebath](https://github.com/rdebath))).
 
 ## how to use
 
