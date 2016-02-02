@@ -1,5 +1,6 @@
 #!/bin/sh
 cat <<'EOF'
+// https://github.com/kmyk/wrap-brainfuck
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
